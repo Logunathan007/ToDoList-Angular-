@@ -1,1 +1,109 @@
-/* You can add global styles to this file, and also import other style files */
+*{
+  margin:0px;
+  padding:0px;
+  box-sizing: border-box;
+}
+
+body{
+  width: 100vw;
+  height: 100vh;
+}
+
+.main{
+  width: 300px;
+  height: 100%;
+  margin: 0px auto;
+  border-left: 1px dotted blueviolet;
+  border-right: 1px dotted blueviolet;
+}
+
+.inputbox{
+  width: 100%;
+  height: 20vh;
+}
+form{
+  width:90%;
+  height: 10vh;
+  margin: 0px auto;
+  display: flex;
+  place-items: center;
+  gap:2px;
+}
+.search{
+  width: 90%;
+  margin:0px auto;
+  height: 10vh;
+  display: grid;
+  place-items: center;
+}
+.inputbox input{
+  width: 100%;
+  height: 8vh;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding-left: 1rem;
+  font-size: 1.2rem;
+  box-shadow: 2px 2px 5px gray;
+}
+
+form input{
+  width: 80% !important;
+}
+
+form button{
+  font-size: 1.2rem;
+  width: 8vh;
+  height: 8vh;
+  opacity: .8;
+  cursor: pointer;
+}
+form button:hover{
+  opacity: 1;
+}
+
+.outputbox{
+  height: 80vh;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  scrollbar-width: none;
+  gap:20px
+}
+
+.cards{
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid black;
+  box-shadow: 2px 2px 5px gray;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap:10px;
+  padding: 0px 10px;
+  font-size: 1.2rem;
+}
+.action{
+  display: flex;
+  align-items: center;
+}
+.action button{
+  width: 25px;
+  height: 25px;
+  background-color: inherit;
+  border: none;
+  opacity: 0.8;
+}
+.action .save{
+  margin-right: 2px;
+  margin-top: 2px;
+}
+.action button:hover{
+  opacity: 1;
+  cursor: pointer;
+}
+#editname{
+  width:100%;
+  font-size:1.2rem;
+  border: none;
+}
