@@ -1,6 +1,6 @@
-<div class="inputbox" (submit)="onAdd()" >
-  <form class="add" [formGroup]="formgroup" >
-    <input type="text" placeholder="Enter a value..." formControlName="name" required>
+<div class="inputbox"  >
+  <form class="add" (submit)="onAdd()" >
+    <input type="text" placeholder="Enter a value..." [(ngModel)]="taskModel.name" name="taskModel.name" required>
     <button  type="submit">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -8,6 +8,6 @@
     </button>
   </form>
   <div class="search">
-    <input type="text" placeholder="Search..." [(ngModel)]="search" name="check">
+    <input type="text" placeholder="Search..." (input)="Change()" [(ngModel)]="search" name="search">
   </div>
 </div>

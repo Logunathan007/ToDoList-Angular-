@@ -1,9 +1,9 @@
 <div class="cards">
   <div class="taskname">
-    <span *ngIf="isEditClicked; else elseBlock;"> {{name}}</span>
+    <span *ngIf="isEditClicked; else elseBlock;"> {{taskModel.name}}</span>
 
     <ng-template #elseBlock>
-      <input type="text" id = 'editname' name="edit" [(ngModel)]="editName">
+      <input type="text" id = 'editname' name="editName" [(ngModel)]="editName">
     </ng-template>
 
   </div>

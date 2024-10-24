@@ -1,5 +1,5 @@
 <div class="outputbox">
-  <div class="card" *ngFor="let data of datas">
-    <app-card [name]="data.name" [id]="data.id"></app-card>
+  <div class="card" *ngFor="let data of copyTaskModels;">
+    <app-card [taskModel]="data" (deleted)="deleteLocally($event)"></app-card>
   </div>
 </div>

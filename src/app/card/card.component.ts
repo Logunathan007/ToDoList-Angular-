@@ -1,5 +1,7 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { TaskModel } from './../models/TaskModel';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { StoreService } from '../_services/store.service';
+import { OutPutModel } from '../models/OutPutModel';
 
 @Component({
   selector: 'app-card',
@@ -7,44 +9,49 @@ import { StoreService } from '../_services/store.service';
   styleUrl: './card.component.css'
 })
 
-export class CardComponent implements OnChanges{
-  @Input('name')
-  name = ""
+export class CardComponent{
 
-  @Input('id')
-  id = 0
+  @Input("taskModel") taskModel:TaskModel;
+  @Output("deleted") deleted:EventEmitter<string> = new EventEmitter();
 
   editName = ""
+  isEditClicked = true;
+  datas:any = []
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.editName = this.name;
+  constructor(public ss:StoreService){}
+
+  ngOnInit(): void {
+    this.editName = this.taskModel.name;
   }
 
-  isEditClicked = true;
   toggleEdit(){
     this.isEditClicked = !this.isEditClicked;
   }
 
   saveValue(){
-    if(this.editName === "")return;
-    this.datas.forEach((element:any) => {
-      if(element.id == this.id){
-        element.name = this.editName;
+    if(!this.editName)return;
+    this.taskModel.name = this.editName;
+    this.ss.UpdateName(this.taskModel).subscribe({
+      next:(res:OutPutModel)=>{
+        console.log(res);
+      },
+      error:(e)=>{
+        console.log("error");
       }
-    });
-    this.ss.Change(this.datas);
+    })
     this.toggleEdit()
   }
 
-  constructor(public ss:StoreService){}
-
-  datas:any = []
-
-  ngOnInit(): void {
-    this.ss.messageSource.subscribe(message => this.datas = message)
-  }
-
   handleDelete(){
-    this.ss.Change(this.datas.filter((ele:any)=>ele.id!==this.id))
+    this.ss.DeleteName(this.taskModel.id).subscribe({
+      next:(res:OutPutModel)=>{
+        console.log(res,this.taskModel);
+
+        this.deleted.emit(this.taskModel.id)
+      },
+      error:(e)=>{
+        console.log("error");
+      }
+    })
   }
 }

@@ -1,40 +1,32 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { TaskModel } from '../models/TaskModel';
+import { OutPutModel } from '../models/OutPutModel';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StoreService {
-  datas:any = [
-    {
-      id : 1,
-      name : "workout"
-    },{
-      id : 2,
-      name : "study"
-    },{
-      id : 3,
-      name : "eat"
-    },{
-      id : 4,
-      name : "angular"
-    }
-  ]
+export class StoreService{
+  URL:string = "https://localhost:7279/"
 
-  datas_copy = []
+  searchString:BehaviorSubject<string> = new BehaviorSubject("")
 
-  public messageSource = new BehaviorSubject(this.datas);
+  constructor(private httpClient:HttpClient) {  }
 
-  public searchSourcce = new BehaviorSubject("");
-
-  searchChange(message:string=""){
-    this.datas_copy = this.datas.filter((ele:any)=>ele.name.toLowerCase().includes(message.toLowerCase()))
-    this.messageSource.next(this.datas_copy)
+  getAll():Observable<TaskModel[]>{
+    return this.httpClient.get<TaskModel[]>(this.URL);
   }
-
-  Change(message: any) {
-    this.messageSource.next(message)
-    this.datas = message;
+  AddNew(name:string):Observable<OutPutModel>{
+    return this.httpClient.post<OutPutModel>(this.URL,{name});
   }
-  constructor() { }
+  UpdateName(task:TaskModel):Observable<OutPutModel>{
+    return this.httpClient.put<OutPutModel>(this.URL,task);
+  }
+  DeleteName(id:string):Observable<OutPutModel>{
+    return this.httpClient.delete<OutPutModel>(this.URL+id);
+  }
+  SearchChange(newString:string){
+    this.searchString.next(newString);
+  }
 }

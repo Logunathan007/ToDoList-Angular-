@@ -1,43 +1,48 @@
-import { Component, DoCheck, SimpleChanges } from '@angular/core';
+import { Component, DoCheck, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { StoreService } from '../_services/store.service';
+import { TaskModel } from '../models/TaskModel';
+import { OutPutModel } from '../models/OutPutModel';
 
 @Component({
   selector: 'app-input-box',
   templateUrl: './input-box.component.html',
   styleUrl: './input-box.component.css'
 })
-export class InputBoxComponent implements DoCheck{
-  formgroup = new FormGroup({
-    name : new FormControl('')
-  })
+export class InputBoxComponent implements OnInit{
+  taskModel!:TaskModel;
 
   search = "";
 
   // this.datas.filter((ele:any)=>ele.name.toLowerCase().includes(this.search.toLowerCase()))
 
-  constructor(public ss:StoreService){}
-
-  ngDoCheck(): void {
-    this.ss.searchChange(this.search);
+  constructor(public ss:StoreService){
+    this.taskModel = {
+      id: '',
+      name: ''
+    };
   }
-
-  datas:any = []
 
   ngOnInit(): void {
-    this.ss.messageSource.subscribe(message => this.datas = message)
   }
 
-  onAdd(){
-    var name:string | null= this.formgroup.controls?.['name']?.value;
-    if(name){
-      var obj = {
-        id : this.datas.length==0?1:this.datas[this.datas.length-1].id + 1 ,
-        name : name
+  onAdd():void{
+    if(!this.taskModel.name) return;
+    this.ss.AddNew(this.taskModel.name).subscribe({
+      next:(res:OutPutModel)=>{
+        if(res.flag){
+          console.log("Successfully added");
+        }else{
+          console.log("Fail to add");
+        }
+      },
+      error:(e)=>{
+        console.log("Error occured");
       }
-      this.datas.push(obj);
-      this.ss.Change(this.datas);
-    }
-    this.formgroup.controls?.['name']?.setValue("")
+    })
+  }
+
+  Change():void{
+    this.ss.SearchChange(this.search);
   }
 }
