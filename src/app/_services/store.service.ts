@@ -8,7 +8,7 @@ import { OutPutModel } from '../models/OutPutModel';
   providedIn: 'root'
 })
 export class StoreService{
-  URL:string = "https://localhost:7279/"
+  URL:string = "https://localhost:5000/"
 
   searchString:BehaviorSubject<string> = new BehaviorSubject("")
 
